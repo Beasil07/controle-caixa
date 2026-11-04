@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controle de Caixa</title>
+<meta name="description" content="Sistema para abrir, movimentar e fechar o caixa do dia.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1>Controle de Caixa</h1>
+      <p class="suave">Os dados ficam salvos somente neste navegador.</p>
+    </div>
+    <div class="acoes">
+      <button type="button" id="btnExemplo">Carregar dados de exemplo</button>
+      <button type="button" id="btnCsv">Exportar CSV</button>
+      <button type="button" id="btnLimpar" class="perigo">Apagar tudo</button>
+    </div>
+  </header>
+  <p id="msgGeral" class="msg" role="status"></p>
+
+  <section id="secAbrir" aria-labelledby="tAbrir">
+    <h2 id="tAbrir">Abrir caixa</h2>
+    <form id="formAbrir" class="grade" novalidate>
+      <label>Data <input type="date" id="abrirData" required></label>
+      <label>Valor inicial (R$) <input type="text" inputmode="decimal" id="abrirValor" placeholder="0,00" required></label>
+      <button type="submit" class="principal">Abrir caixa</button>
+    </form>
+    <p id="msgAbrir" class="msg" role="status"></p>
+  </section>
+
+  <section id="secAberto" aria-labelledby="tAberto" hidden>
+    <h2 id="tAberto">Caixa aberto</h2>
+    <div id="resumo" class="cartoes"></div>
+
+    <h3 id="tLanc">Novo lançamento</h3>
+    <form id="formLanc" class="grade" novalidate>
+      <label>Tipo
+        <select id="lancTipo"><option value="entrada">Entrada</option><option value="saida">Saída</option></select>
+      </label>
+      <label class="largo">Descrição <input type="text" id="lancDescricao" maxlength="80" required></label>
+      <label>Valor (R$) <input type="text" inputmode="decimal" id="lancValor" placeholder="0,00" required></label>
+      <label>Categoria <select id="lancCategoria"></select></label>
+      <label>Pagamento <select id="lancPagamento"></select></label>
+      <button type="submit" class="principal" id="btnSalvarLanc">Adicionar</button>
+      <button type="button" id="btnCancelarEdicao" hidden>Cancelar edição</button>
+    </form>
+    <p id="msgLanc" class="msg" role="status"></p>
+
+    <h3>Fechar caixa</h3>
+    <form id="formFechar" class="grade" novalidate>
+      <label>Dinheiro contado (R$) <input type="text" inputmode="decimal" id="fecharValor" placeholder="0,00" required></label>
+      <button type="submit" class="principal">Fechar caixa</button>
+    </form>
+    <p id="msgFechar" class="msg" role="status"></p>
+  </section>
+
+  <section aria-labelledby="tHistorico">
+    <h2 id="tHistorico">Histórico</h2>
+    <div class="grade">
+      <label>Filtrar por data <input type="date" id="filtroData"></label>
+      <button type="button" id="btnLimparFiltro">Limpar filtro</button>
+    </div>
+    <h3>Caixas</h3>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Data</th><th>Status</th><th class="num">Inicial</th><th class="num">Entradas</th><th class="num">Saídas</th><th class="num">Esperado</th><th class="num">Contado</th><th class="num">Diferença</th></tr></thead>
+        <tbody id="tabelaCaixas"></tbody>
+      </table>
+    </div>
+    <h3>Lançamentos</h3>
+    <div class="rolagem">
+      <table>
+        <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Categoria</th><th>Pagamento</th><th class="num">Valor</th><th>Ações</th></tr></thead>
+        <tbody id="tabelaLanc"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="tGrafico">
+    <h2 id="tGrafico">Gráfico mensal</h2>
+    <div class="grade"><label>Mês <input type="month" id="graficoMes"></label></div>
+    <p class="legenda"><span class="ponto entrada"></span>Entradas <span class="ponto saida"></span>Saídas</p>
+    <div id="grafico"></div>
+    <p id="graficoTotais" class="suave"></p>
+  </section>
+</main>
+
+<dialog id="dialogo">
+  <p id="dialogoTexto"></p>
+  <div class="acoes">
+    <button type="button" id="dialogoNao">Cancelar</button>
+    <button type="button" id="dialogoSim" class="principal">Confirmar</button>
+  </div>
+</dialog>
+
+<script src="dados.js"></script>
+<script src="grafico.js"></script>
+<script src="csv.js"></script>
+<script src="caixa.js"></script>
+</body>
+</html>
